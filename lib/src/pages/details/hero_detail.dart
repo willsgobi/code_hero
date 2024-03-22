@@ -1,5 +1,6 @@
 import 'package:code_hero/src/helpers/configs.dart';
 import 'package:code_hero/src/models/hero_list_model.dart';
+import 'package:code_hero/src/pages/details/widgets/expansion_widget.dart';
 import 'package:flutter/material.dart';
 
 class HeroDetail extends StatefulWidget {
@@ -63,65 +64,29 @@ class _HeroDetailState extends State<HeroDetail> {
                   const SizedBox(
                     height: 16,
                   ),
-                  ExpansionTile(
-                    title: const Text("Séries"),
-                    leading: Icon(
-                      Icons.book,
-                      color: Config.mainColor,
-                    ),
-                    children: widget.hero.series.items
-                        .map((e) => ListTile(
-                              title: Text(e.name),
-                            ))
-                        .toList(),
+                  ExpansionWidget(
+                      count: widget.hero.series.available,
+                      title: "Séries",
+                      list: widget.hero.series.items,
+                      icon: Icons.book),
+                  ExpansionWidget(
+                    count: widget.hero.stories.available,
+                    title: "Histórias",
+                    list: widget.hero.stories.items,
+                    icon: Icons.history_edu,
                   ),
-                  const SizedBox(
-                    height: 16,
+                  ExpansionWidget(
+                    count: widget.hero.comics.available,
+                    title: "Quadrinhos",
+                    list: widget.hero.comics.items,
+                    icon: Icons.high_quality,
                   ),
-                  ExpansionTile(
-                    title: const Text("Histórias"),
-                    leading: Icon(
-                      Icons.history_edu,
-                      color: Config.mainColor,
-                    ),
-                    children: widget.hero.stories.items
-                        .map((e) => ListTile(
-                              title: Text(e.name),
-                            ))
-                        .toList(),
+                  ExpansionWidget(
+                    count: widget.hero.events.available,
+                    title: "Séries",
+                    list: widget.hero.events.items,
+                    icon: Icons.event_available,
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  ExpansionTile(
-                    title: const Text("Quadrinhos"),
-                    leading: Icon(
-                      Icons.high_quality,
-                      color: Config.mainColor,
-                    ),
-                    children: widget.hero.comics.items
-                        .map((e) => ListTile(
-                              title: Text(e.name),
-                            ))
-                        .toList(),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  widget.hero.events.available > 0
-                      ? ExpansionTile(
-                          title: const Text("Eventos"),
-                          leading: Icon(
-                            Icons.event_available,
-                            color: Config.mainColor,
-                          ),
-                          children: widget.hero.events.items
-                              .map((e) => ListTile(
-                                    title: Text(e.name),
-                                  ))
-                              .toList(),
-                        )
-                      : const SizedBox(),
                   const SizedBox(
                     height: 30,
                   ),
