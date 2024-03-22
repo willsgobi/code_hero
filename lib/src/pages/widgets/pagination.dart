@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 
 class Pagination extends StatefulWidget {
   final int count;
+  final ValueNotifier currentPage;
   final Function(int newPage) changePage;
-  const Pagination({super.key, required this.count, required this.changePage});
+  const Pagination(
+      {super.key,
+      required this.count,
+      required this.changePage,
+      required this.currentPage});
 
   @override
   State<Pagination> createState() => _PaginationState();
@@ -22,16 +27,23 @@ class _PaginationState extends State<Pagination> {
   }
 
   changePage(int clickedPage) {
-    if (clickedPage == pages.value) return;
+    getTotalPages();
+    if (clickedPage > pages.value) return;
 
     setState(() {
       currentPage = clickedPage;
     });
 
-    if (clickedPage != 1) {
-      var newListPage = [clickedPage - 1, clickedPage, clickedPage + 1];
-      pagesList.value = newListPage;
+    List<int> newListPage;
+
+    if (clickedPage != 1 && clickedPage < pages.value) {
+      newListPage = [clickedPage - 1, clickedPage, clickedPage + 1];
+    } else if (clickedPage == pages.value) {
+      newListPage = [clickedPage - 2, clickedPage - 1, clickedPage];
+    } else {
+      newListPage = [1, 2, 3];
     }
+    pagesList.value = newListPage;
 
     widget.changePage(clickedPage);
   }
@@ -41,6 +53,10 @@ class _PaginationState extends State<Pagination> {
     super.initState();
 
     getTotalPages();
+
+    widget.currentPage.addListener(() {
+      changePage(widget.currentPage.value);
+    });
   }
 
   @override

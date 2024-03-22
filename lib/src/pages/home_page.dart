@@ -39,6 +39,9 @@ class _HomePageState extends State<HomePage> {
                 HeaderWidget(
                   searchName: searchName,
                   searchNameController: searchNameController,
+                  resetPages: () {
+                    currentPage.value = 1;
+                  },
                 ),
                 Container(
                   width: MediaQuery.sizeOf(context).width,
@@ -75,18 +78,23 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const Spacer(),
                 ValueListenableBuilder(
-                    valueListenable: totalHeros,
+                    valueListenable: currentPage,
                     builder: (_, __, ___) {
-                      if (totalHeros.value > 4) {
-                        return Pagination(
-                          count: totalHeros.value,
-                          changePage: (int newPage) {
-                            currentPage.value = newPage;
-                          },
-                        );
-                      }
+                      return ValueListenableBuilder(
+                          valueListenable: totalHeros,
+                          builder: (_, __, ___) {
+                            if (totalHeros.value > 4) {
+                              return Pagination(
+                                count: totalHeros.value,
+                                currentPage: currentPage,
+                                changePage: (int newPage) {
+                                  currentPage.value = newPage;
+                                },
+                              );
+                            }
 
-                      return const SizedBox();
+                            return const SizedBox();
+                          });
                     })
               ],
             ),

@@ -7,10 +7,7 @@ class Repository {
   Future<Heros?> getHeros(int currentPage, String? searchName) async {
     const int limit = 4;
     var offset = 0;
-
-    if (searchName == null || searchName.isEmpty) {
-      offset = currentPage == 0 ? 0 : (limit * currentPage) - limit;
-    }
+    offset = currentPage == 0 ? 0 : (limit * currentPage) - limit;
 
     try {
       Map<String, String> queryParameters = {
@@ -22,8 +19,7 @@ class Repository {
       };
 
       if (searchName != null && searchName.isNotEmpty) {
-        queryParameters.addAll({'name': searchName});
-        queryParameters.remove("limit");
+        queryParameters.addAll({'nameStartsWith': searchName});
       }
 
       var url = Uri.https(

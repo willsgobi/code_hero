@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class HeaderWidget extends StatefulWidget {
   final TextEditingController searchNameController;
   final ValueNotifier<String?> searchName;
+  final Function resetPages;
   const HeaderWidget(
       {super.key,
       required this.searchNameController,
-      required this.searchName});
+      required this.searchName,
+      required this.resetPages});
 
   @override
   State<HeaderWidget> createState() => _HeaderWidgetState();
@@ -72,6 +74,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 textAlignVertical: TextAlignVertical.top,
                 onSubmitted: (value) {
                   widget.searchName.value = value;
+                  widget.resetPages();
                 },
               )),
           ValueListenableBuilder(
@@ -82,6 +85,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                     onTap: () {
                       widget.searchNameController.clear();
                       widget.searchName.value = null;
+                      widget.resetPages();
                     },
                     child: Text(
                       "Limpar pesquisa",

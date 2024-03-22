@@ -54,6 +54,14 @@ class _HeroListState extends State<HeroList> {
           if (snapshot.hasData) {
             var heros = snapshot.data as Heros;
             widget.totalHeros(heros.data.total);
+
+            if (heros.data.total == 0) {
+              return const Center(
+                child:
+                    Text("Não encontramos nenhum herói com este nome na API."),
+              );
+            }
+
             return Column(
               children: heros.data.results
                   .map((e) => HeroWidget(
