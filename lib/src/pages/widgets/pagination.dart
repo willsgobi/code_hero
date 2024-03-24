@@ -24,6 +24,12 @@ class _PaginationState extends State<Pagination> {
     const int itemsPerPage = 4;
     final double totalPages = (widget.count / itemsPerPage).ceilToDouble();
     pages.value = totalPages.toInt();
+
+    if (totalPages == 2) {
+      pagesList.value = [1, 2];
+    } else if (currentPage == 1) {
+      pagesList.value = [1, 2, 3];
+    }
   }
 
   changePage(int clickedPage) {
@@ -36,7 +42,9 @@ class _PaginationState extends State<Pagination> {
 
     List<int> newListPage;
 
-    if (clickedPage != 1 && clickedPage < pages.value) {
+    if (pages.value == 2) {
+      newListPage = [1, 2];
+    } else if (clickedPage != 1 && clickedPage < pages.value) {
       newListPage = [clickedPage - 1, clickedPage, clickedPage + 1];
     } else if (clickedPage == pages.value) {
       newListPage = [clickedPage - 2, clickedPage - 1, clickedPage];
@@ -61,6 +69,7 @@ class _PaginationState extends State<Pagination> {
 
   @override
   Widget build(BuildContext context) {
+    getTotalPages();
     return Column(
       children: [
         Row(
